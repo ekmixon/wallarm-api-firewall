@@ -58,15 +58,21 @@ def create():
     time.sleep(5)
 
     # Owerride dns config for nodes
-    proc = subprocess.Popen([
-        "/usr/local/bin/docker",
-        "exec",
-        "-i",
-        "kind-control-plane",
-        "sh",
-        "-c",
-        "echo nameserver " + __config_dns_address + " > /etc/resolv.conf",
-    ], stdout=sys.stdout, stderr=sys.stderr, universal_newlines=True)
+    proc = subprocess.Popen(
+        [
+            "/usr/local/bin/docker",
+            "exec",
+            "-i",
+            "kind-control-plane",
+            "sh",
+            "-c",
+            f"echo nameserver {__config_dns_address} > /etc/resolv.conf",
+        ],
+        stdout=sys.stdout,
+        stderr=sys.stderr,
+        universal_newlines=True,
+    )
+
     proc.communicate()
 
     # Apply few manifests
